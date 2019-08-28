@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"time"
 	"runtime"
-	"strings"
-	"strconv"
 	"path/filepath"
 
 )
@@ -22,9 +20,11 @@ import (
 
 func swVdebug(msg string,args ...interface{}){
  
+	msg_str := fmt.Sprintf(msg,args...)
+	fmt.Printf("LOGMSG: %s\n",msg_str)
 	var  line int
 	//org_file_name,line := "???",0
-        
+
 	_,org_file_name,_,ok := runtime.Caller(0)
 	if ok {
 		//funcname = runtime.FuncForPC(pc).Name()
@@ -39,8 +39,7 @@ func swVdebug(msg string,args ...interface{}){
 	if err != nil {
 		log.Printf("open %s fail...\n",file_name)
 	}
-	msg_str := fmt.Sprintf(msg,args...)
-	
+
 	//time|pid|file_name|line|msg
 	//file_line := fmt.Sprintf("%s|%s|%s|%d|%s\n",time.Now().Format("2006/01/02-15:04:05"),org_file_name,funcname,line,msg)
 	file_line := fmt.Sprintf(" %s|%6d|%s|%5d|%s   \n",time.Now().Format("2006/01/02-15:04:05"),os.Getpid(),org_file_name,line,msg_str)
